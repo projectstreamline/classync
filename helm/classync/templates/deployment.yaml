@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: classync-{{ .Values.profile }}
+  namespace: {{ .Values.profile }}
+  labels:
+    app: classync-{{ .Values.profile }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: classync-{{ .Values.profile }}
+  template:
+    metadata:
+      labels:
+        app: classynce-{{ .Values.profile }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccountName }} #for image
+      imagePullSecrets:
+        - name: registry-secret-classync #secret for pulling the image
+      containers:
+        - name: classync-{{ .Values.profile }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8007
+          envFrom:
+            - configMapRef:
+                name: classync-{{ .Values.profile }}-config
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          
+     

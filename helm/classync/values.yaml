@@ -1,0 +1,13 @@
+profile: ""
+replicas: 1
+serviceAccountName: secret-manager-sa
+image:
+  repository: github repo
+  tag: latest
+envFile: ""
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    memory: "1Gi"

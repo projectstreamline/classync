@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: classync-{{ .Values.profile }}
+  namespace: {{ .Values.profile }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8007
+      targetPort: 8007
+  selector:
+    app: classync-{{ .Values.profile }}
